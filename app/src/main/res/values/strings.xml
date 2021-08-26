@@ -4,4 +4,6 @@
     <string name="create_movie_page" >Create Movie</string>
     <string name="movies_page" >Movies</string>
     <string name="fav_movies_page" >Favorite Movies</string>
+    <string name="add_movie">create new TV Show</string>
+    <string name="see_movie">see TV Shows</string>
 </resources>

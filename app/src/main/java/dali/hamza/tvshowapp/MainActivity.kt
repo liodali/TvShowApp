@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dali.hamza.tvshowapp.models.Routes.Companion.rememberRoutesNames
+import dali.hamza.tvshowapp.ui.pages.Home
 import dali.hamza.tvshowapp.ui.theme.TvShowAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -31,7 +32,14 @@ fun App(){
     TvShowAppTheme {
         NavHost(navController, startDestination = started ){
             composable(routes.home){
+                Home(
+                    goToCreateMovie = {
 
+                    },
+                    goToMovies = {
+
+                    }
+                )
             }
             composable(routes.createMovies){
 
