@@ -1,2 +1,4 @@
 /build
 /src/main/graphql/instrospection_schema.json
+/src/main/graphql/getMovies.graphql
+/src/main/graphql/schema.json

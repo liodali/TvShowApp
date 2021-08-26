@@ -8,31 +8,40 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import dali.hamza.tvshowapp.models.Routes.Companion.rememberRoutesNames
 import dali.hamza.tvshowapp.ui.theme.TvShowAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            TvShowAppTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.background) {
-                    Greeting("Android")
-                }
-            }
+          App()
         }
     }
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
+fun App(){
+    val navController = rememberNavController()
+    val routes = rememberRoutesNames()
+    val started = routes.home
     TvShowAppTheme {
-        Greeting("Android")
+        NavHost(navController, startDestination = started ){
+            composable(routes.home){
+
+            }
+            composable(routes.createMovies){
+
+            }
+            composable(routes.movies){
+
+            }
+            composable(routes.favMovies){
+
+            }
+        }
     }
 }

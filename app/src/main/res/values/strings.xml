@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">TvShowApp</string>
+    <string name="app_name">Tv Shows</string>
+    <string name="home_page" >Home</string>
+    <string name="create_movie_page" >Create Movie</string>
+    <string name="movies_page" >Movies</string>
+    <string name="fav_movies_page" >Favorite Movies</string>
 </resources>
