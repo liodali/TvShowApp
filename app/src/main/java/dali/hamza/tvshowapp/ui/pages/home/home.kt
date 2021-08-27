@@ -1,7 +1,8 @@
-package dali.hamza.tvshowapp.ui.pages
+package dali.hamza.tvshowapp.ui.pages.home
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -46,7 +47,9 @@ fun Home(
                 )
             }
             Row(
-                Modifier.padding(top = 5.dp).fillMaxSize(),
+                Modifier
+                    .padding(top = 5.dp)
+                    .fillMaxSize(),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -70,8 +73,8 @@ fun ButtonHome(
     action: onPressed,
     modifier: Modifier = Modifier.padding(2.dp),
     label: String,
-    icon:Int,
-    ) {
+    icon: Int,
+) {
     Box(
         modifier = Modifier.then(modifier)
     ) {
@@ -95,11 +98,14 @@ fun ButtonHome(
                     painter = painterResource(id = icon),
                     contentDescription = "icon button add",
                     colorFilter = ColorFilter.tint(
-                        color = Color.Black
+                        color = when (isSystemInDarkTheme()) {
+                            true -> Color.White
+                            false -> Color.Black
+                        }
                     ),
-                    modifier = Modifier.size(48.dp,)
+                    modifier = Modifier.size(48.dp)
                 )
-                Text(label,textAlign = TextAlign.Center)
+                Text(label, textAlign = TextAlign.Center)
             }
         }
     }

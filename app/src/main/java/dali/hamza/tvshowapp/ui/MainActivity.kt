@@ -11,7 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dali.hamza.tvshowapp.models.AppComposition
 import dali.hamza.tvshowapp.models.Routes.Companion.rememberRoutesNames
-import dali.hamza.tvshowapp.ui.pages.Home
+import dali.hamza.tvshowapp.ui.pages.home.Home
 import dali.hamza.tvshowapp.ui.pages.movies.MoviesViewModel
 import dali.hamza.tvshowapp.ui.theme.TvShowAppTheme
 import androidx.hilt.navigation.compose.hiltViewModel

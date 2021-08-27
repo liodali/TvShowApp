@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">Tv Shows</string>
-    <string name="home_page" >Home</string>
-    <string name="create_movie_page" >Create Movie</string>
-    <string name="movies_page" >Movies</string>
-    <string name="fav_movies_page" >Favorite Movies</string>
+    <string name="home_page">Home</string>
+    <string name="create_movie_page">Create Movie</string>
+    <string name="movies_page">Movies</string>
+    <string name="fav_movies_page">Favorite Movies</string>
     <string name="add_movie">create new TV Show</string>
     <string name="see_movie">see TV Shows</string>
-    <string name="loadingText">loading ...</string>
+    <string name="loadingText">Loading …</string>
     <string name="dateRelease">Release Date : </string>
     <string name="season">"Season : "</string>
     <string name="emptyMovies">Empty Tv Show</string>
@@ -16,4 +16,5 @@
     <string name="dateRealseLabelEdt">Movie Release Date</string>
     <string name="seasonLabelEdt">Movie Season</string>
     <string name="createLabel">Create new Movie</string>
+    <string name="creationMovieSuccess"> was created successfully</string>
 </resources>

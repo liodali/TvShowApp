@@ -1,6 +1,7 @@
 package dali.hamza.tvshowapp.models
 
 import androidx.compose.runtime.saveable.mapSaver
+import dali.hamza.domain.models.Movie
 
 data class MovieForm(
     val title: String,
@@ -13,6 +14,15 @@ fun initOfMovieForm(): MovieForm {
         title = "",
         dateRelease = "",
         season = ""
+    )
+}
+
+fun MovieForm.toMovie(): Movie {
+    return Movie(
+        id = null,
+        title = title,
+        dateRelease = dateRelease,
+        season = season.toInt()
     )
 }
 

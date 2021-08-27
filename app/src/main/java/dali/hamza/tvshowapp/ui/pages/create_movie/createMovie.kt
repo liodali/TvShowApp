@@ -9,6 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -19,13 +20,21 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import dali.hamza.tvshowapp.ui.MainActivity.Companion.createMovieComposition
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import dali.hamza.tvshowapp.R
 import dali.hamza.tvshowapp.common.isValidMovieForm
+import dali.hamza.tvshowapp.ui.MainActivity.Companion.createMovieComposition
 import dali.hamza.tvshowapp.ui.common.SpacerHeight
+import dali.hamza.tvshowapp.ui.component.LoadingComponent
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -35,6 +44,8 @@ fun CreateMovieCompose(
 ) {
     val viewModel = createMovieComposition.current.getVM()
     val navController = createMovieComposition.current.getController()
+    val movieCreation = viewModel.movieCreation().collectAsState()
+    val scope = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
@@ -60,6 +71,9 @@ fun CreateMovieCompose(
             )
             Button(
                 onClick = {
+                    scope.launch {
+                        viewModel.createMovie()
+                    }
                 },
                 modifier = Modifier
                     .fillMaxWidth(
@@ -67,11 +81,92 @@ fun CreateMovieCompose(
                     )
                     .height(56.dp)
                     .wrapContentWidth(align = Alignment.CenterHorizontally),
-                enabled = viewModel.mutableFlowAutoWalletForm.isValidMovieForm(),
+                enabled = viewModel.mutableFlowMovieForm.isValidMovieForm() || (!movieCreation.value.isLoading || movieCreation.value.data == null),
             ) {
                 Text(stringResource(id = R.string.createLabel))
             }
         }
+
+    }
+
+    if (movieCreation.value.isLoading) {
+        Dialog(
+            onDismissRequest = { },
+
+            properties = DialogProperties(
+                dismissOnBackPress = false,
+                dismissOnClickOutside = false,
+            ),
+
+            ) {
+            Card(
+                modifier = Modifier
+                    .size(196.dp, 96.dp)
+                    .wrapContentSize(align = Alignment.Center)
+            ) {
+                LoadingComponent()
+            }
+
+        }
+    }
+    if (!movieCreation.value.isLoading && movieCreation.value.data != null) {
+        val resourcesCreatedMovie = stringResource(id = R.string.creationMovieSuccess)
+        AlertDialog(
+            onDismissRequest = {
+                viewModel.closeMovieDialogCreation()
+                navController.popBackStack()
+            },
+            buttons = {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.BottomEnd
+                ) {
+                    Button(
+                        onClick = {
+                            viewModel.closeMovieDialogCreation()
+                            navController.popBackStack()
+                        },
+                        Modifier
+                            .padding(5.dp)
+                            .wrapContentWidth(align = Alignment.End)
+                    ) {
+                        Text(text = stringResource(id = android.R.string.ok))
+                    }
+                }
+            },
+            text = {
+                Text(buildAnnotatedString {
+                    withStyle(
+                        style = SpanStyle(
+                            color = when (isSystemInDarkTheme()) {
+                                true -> Color.White
+                                false -> Color.Black
+                            },
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    ) {
+                        append(movieCreation.value.data?.title ?: "")
+                    }
+                    withStyle(
+                        SpanStyle(
+                            color = when (isSystemInDarkTheme()) {
+                                true -> Color.White
+                                false -> Color.Black
+                            },
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Normal
+                        )
+                    ) {
+                        append(resourcesCreatedMovie)
+                    }
+                })
+            },
+            properties = DialogProperties(
+                dismissOnBackPress = false,
+                dismissOnClickOutside = true,
+            )
+        )
     }
 }
 
@@ -85,7 +180,7 @@ fun FormCreateMovie(
     val focusManager = LocalFocusManager.current
     val viewModel = createMovieComposition.current.getVM()
     val scope = rememberCoroutineScope()
-    val formSaveable = viewModel.mutableFlowAutoWalletForm
+    val formSaveable = viewModel.mutableFlowMovieForm
     Column(
         modifier = modifier
     ) {
