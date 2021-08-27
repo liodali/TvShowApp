@@ -6,4 +6,10 @@
     <string name="fav_movies_page" >Favorite Movies</string>
     <string name="add_movie">create new TV Show</string>
     <string name="see_movie">see TV Shows</string>
+    <string name="loadingText">loading ...</string>
+    <string name="dateRelease">Release Date : </string>
+    <string name="season">"Season : "</string>
+    <string name="emptyMovies">Empty Tv Show</string>
+    <string name="errorMovie">Error to get List of Tv Shows</string>
+    <string name="undefined">Undefined</string>
 </resources>
