@@ -1,0 +1,8 @@
+query Movies($skip:Int=0,$first:Int,$last:Int) {
+  movies (
+    last:$last,skip:$skip,first:$first
+  ) {
+    edges {node {id,title,releaseDate,seasons}},
+    count
+  }
+}

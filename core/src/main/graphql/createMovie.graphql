@@ -1,0 +1,9 @@
+mutation CreateMovie(
+  $movie:CreateMovieInput!
+){
+  createMovie(input:$movie){
+    movie {
+      id,title,releaseDate,seasons
+    }
+  }
+}

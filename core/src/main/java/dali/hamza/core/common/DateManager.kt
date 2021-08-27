@@ -28,6 +28,12 @@ class DateManager {
             val format = formatSource ?: qlFormat
             return appFormat.format(format.parse(dateToFormat))
 
+        }
+
+        fun formatToQlTime(
+            dateToFormat: String,
+        ): String {
+            return qlFormat.format(appFormat.parse(dateToFormat))
 
         }
 

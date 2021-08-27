@@ -1,9 +1,12 @@
 package dali.hamza.core.repository
 
+import CreateMovieMutation
 import MoviesQuery
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.coroutines.await
 import dali.hamza.core.common.toListMovies
+import dali.hamza.core.common.toMovie
+import dali.hamza.core.common.toMovieInput
 import dali.hamza.domain.models.ErrorResponse
 import dali.hamza.domain.models.IResponse
 import dali.hamza.domain.models.Movie
@@ -17,7 +20,18 @@ class MovieRepository @Inject constructor(
     private val apolloClient: ApolloClient
 ) : IMovieRepository {
     override suspend fun createMovie(movie: Movie): Flow<IResponse> {
-        TODO("Not yet implemented")
+        return flow {
+            val call =
+                apolloClient.mutate(CreateMovieMutation(movie = movie.toMovieInput())).await()
+            when (call.hasErrors()) {
+                true -> {
+                    emit(ErrorResponse(error = "error to create ${movie.title}"))
+                }
+                false -> {
+                    emit(SuccessResponse(data = call.data!!.toMovie()))
+                }
+            }
+        }
     }
 
     override suspend fun addMovieToFac(movie: Movie): Flow<IResponse> {
