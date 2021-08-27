@@ -9,6 +9,17 @@ class DateManager {
         val qlFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'")
         val appFormat = SimpleDateFormat("dd MMMM yyyy")
 
+        fun setDate(year: Int, month: Int, day: Int): Date {
+
+            val calendar = Calendar.getInstance()
+
+            calendar[Calendar.DAY_OF_MONTH] = day
+
+            calendar[Calendar.MONTH] = month
+
+            calendar[Calendar.YEAR] = year
+            return calendar.time
+        }
 
         fun formatToTime(
             dateToFormat: String,

@@ -12,4 +12,8 @@
     <string name="emptyMovies">Empty Tv Show</string>
     <string name="errorMovie">Error to get List of Tv Shows</string>
     <string name="undefined">Undefined</string>
+    <string name="titleLabelForm">"Movie Title "</string>
+    <string name="dateRealseLabelEdt">Movie Release Date</string>
+    <string name="seasonLabelEdt">Movie Season</string>
+    <string name="createLabel">Create new Movie</string>
 </resources>

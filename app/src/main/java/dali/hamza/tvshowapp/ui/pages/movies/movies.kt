@@ -14,7 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dali.hamza.domain.models.Movie
-import dali.hamza.tvshowapp.MainActivity.Companion.moviesComposition
+import dali.hamza.tvshowapp.ui.MainActivity.Companion.moviesComposition
 import dali.hamza.tvshowapp.R
 import dali.hamza.tvshowapp.ui.component.EmptyMovies
 import dali.hamza.tvshowapp.ui.component.ItemMovieCompose

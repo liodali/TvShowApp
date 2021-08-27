@@ -1,16 +1,11 @@
-package dali.hamza.tvshowapp
+package dali.hamza.tvshowapp.ui
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -21,13 +16,16 @@ import dali.hamza.tvshowapp.ui.pages.movies.MoviesViewModel
 import dali.hamza.tvshowapp.ui.theme.TvShowAppTheme
 import androidx.hilt.navigation.compose.hiltViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import dali.hamza.tvshowapp.ui.common.DatePickerFragment
+import dali.hamza.tvshowapp.ui.pages.create_movie.CreateMovieCompose
+import dali.hamza.tvshowapp.ui.pages.create_movie.CreateMovieViewModel
 import dali.hamza.tvshowapp.ui.pages.movies.MoviesCompose
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     companion object {
-        val moviesComposition =
-            compositionLocalOf<AppComposition<MoviesViewModel>> { error("No viewModel found!") }
+        val moviesComposition = compositionLocalOf<AppComposition<MoviesViewModel>> { error("No viewModel found!") }
+        val createMovieComposition = compositionLocalOf<AppComposition<CreateMovieViewModel>> { error("No viewModel found!") }
 
     }
 
@@ -47,20 +45,35 @@ class MainActivity : AppCompatActivity() {
             NavHost(navController, startDestination = started ){
                 composable(routes.home){
                     Home(
-                        goToCreateMovie = {},
+                        goToCreateMovie = {
+                            navController.navigate(routes.createMovies)
+                        },
                         goToMovies = {
                             navController.navigate(routes.movies)
                         }
                     )
                 }
                 composable(routes.createMovies){
-
+                    val createMovieViewModel = hiltViewModel<CreateMovieViewModel>()
+                    CompositionLocalProvider(
+                        createMovieComposition provides AppComposition(
+                            createMovieViewModel,
+                            navController
+                        )
+                    ){
+                        CreateMovieCompose(
+                            openDateDialog = { onSetDate,onCancel ->
+                                DatePickerFragment(onPressed = onSetDate, onCancel = onCancel)
+                                    .show(supportFragmentManager,"date release")
+                            }
+                        )
+                    }
                 }
                 composable(routes.movies){
-                    val orderViewModel = hiltViewModel<MoviesViewModel>()
+                    val moviesViewModel = hiltViewModel<MoviesViewModel>()
                     CompositionLocalProvider(
                         moviesComposition provides AppComposition(
-                            orderViewModel,
+                            moviesViewModel,
                             navController
                         )
                     ){

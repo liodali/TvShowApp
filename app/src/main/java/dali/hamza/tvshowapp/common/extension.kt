@@ -3,6 +3,7 @@ package dali.hamza.tvshowapp.common
 import dali.hamza.domain.models.ErrorResponse
 import dali.hamza.domain.models.IResponse
 import dali.hamza.domain.models.SuccessResponse
+import dali.hamza.tvshowapp.models.MovieForm
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
@@ -12,6 +13,9 @@ fun String.isNotEmptyAndNotBlank(): Boolean {
     return this.isNotEmpty() && this.isNotBlank()
 }
 
+fun MovieForm.isValidMovieForm(): Boolean {
+    return this.dateRelease.isNotEmptyAndNotBlank() && title.isNotEmptyAndNotBlank() && (season.isNotEmpty() && season.toInt() >= 1)
+}
 
 @OptIn(InternalCoroutinesApi::class)
 suspend inline fun Flow<IResponse?>.onData(
