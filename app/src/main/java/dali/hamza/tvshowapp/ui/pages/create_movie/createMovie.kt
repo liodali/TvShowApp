@@ -79,9 +79,10 @@ fun CreateMovieCompose(
                     .fillMaxWidth(
                         fraction = 1f
                     )
-                    .height(56.dp)
+                    .height(72.dp)
+                    .padding(top = 32.dp)
                     .wrapContentWidth(align = Alignment.CenterHorizontally),
-                enabled = viewModel.mutableFlowMovieForm.isValidMovieForm() || (!movieCreation.value.isLoading || movieCreation.value.data == null),
+                enabled = viewModel.mutableFlowMovieForm.isValidMovieForm() && (!movieCreation.value.isLoading && movieCreation.value.data == null),
             ) {
                 Text(stringResource(id = R.string.createLabel))
             }
