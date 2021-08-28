@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import dali.hamza.domain.models.Movie
 import dali.hamza.tvshowapp.R
 import dali.hamza.tvshowapp.common.isNotEmptyAndNotBlank
+import dali.hamza.tvshowapp.ui.theme.Gray400
 
 @Composable
 fun ItemMovieCompose(movie: Movie) {
@@ -63,8 +64,8 @@ fun ItemMovieCompose(movie: Movie) {
                     withStyle(
                         style = SpanStyle(
                             color = when (isSystemInDarkTheme()) {
-                                true -> Color.White
-                                false -> Color.Black
+                                true -> Gray400
+                                false -> Color.Gray
                             },
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Normal
@@ -95,8 +96,8 @@ fun ItemMovieCompose(movie: Movie) {
                     withStyle(
                         style = SpanStyle(
                             color = when (isSystemInDarkTheme()) {
-                                true -> Color.White
-                                false -> Color.Black
+                                true -> Gray400
+                                false -> Color.Gray
                             },
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Normal
