@@ -1,14 +1,17 @@
 package dali.hamza.tvshowapp.di
 
 import android.app.Application
+import androidx.room.Room
 import com.apollographql.apollo.ApolloClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dali.hamza.core.datasource.db.AppDatabase
 import dali.hamza.tvshowapp.R
 import dali.hamza.tvshowapp.common.AuthorizationInterceptor
 import okhttp3.OkHttpClient
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -16,6 +19,12 @@ import javax.inject.Singleton
     SingletonComponent::class
 )
 object AppModule {
+
+
+    @Provides
+    @Named("dbname")
+    fun provideDbName(application: Application) =
+        application.resources.getString(R.string.db_name)
 
     @Provides
     fun provideHeaders(application: Application): HashMap<String, String> {
@@ -44,5 +53,14 @@ object AppModule {
                 .build()
         ).build()
 
-
+    @Singleton
+    @Provides
+    fun provideAppDatabase(
+        application: Application,
+        @Named("dbname") DB_NAME: String,
+    ): AppDatabase = Room.databaseBuilder(
+        application,
+        AppDatabase::class.java,
+        DB_NAME
+    ).build()
 }

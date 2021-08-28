@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.Flow
 interface IMovieRepository : IRepository<Movie> {
 
     suspend fun createMovie(movie: Movie): Flow<IResponse>
-    suspend fun addMovieToFac(movie: Movie): Flow<IResponse>
-    suspend fun getMovieFav(movie: Movie): Flow<IResponse>
+    suspend fun addMovieToFac(movie: Movie): Boolean
+    suspend fun getMovieFav(movie: Movie): Flow<List<Movie>>
     suspend fun searchMovie(name: String?, dateRelease: String?): Flow<IResponse>
 
 

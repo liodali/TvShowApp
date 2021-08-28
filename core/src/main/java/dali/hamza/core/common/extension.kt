@@ -3,6 +3,7 @@ package dali.hamza.core.common
 import CreateMovieMutation
 import MoviesQuery
 import com.apollographql.apollo.api.Input
+import dali.hamza.core.datasource.db.models.MovieDb
 import dali.hamza.domain.models.Movie
 import type.CreateMovieFieldsInput
 import type.CreateMovieInput
@@ -57,5 +58,23 @@ fun Movie.toMovieInput(): CreateMovieInput {
                 seasons = Input.fromNullable(season.toDouble())
             )
         )
+    )
+}
+
+fun Movie.toMovieDb(): MovieDb {
+    return MovieDb(
+        id = id!!,
+        title = title,
+        dateRelease = DateManager.appFormat.parse(dateRelease),
+        season = season
+    )
+}
+
+fun MovieDb.toMovie(): Movie {
+    return Movie(
+        id = id,
+        title = title,
+        dateRelease = DateManager.appFormat.format(dateRelease),
+        season = season
     )
 }
