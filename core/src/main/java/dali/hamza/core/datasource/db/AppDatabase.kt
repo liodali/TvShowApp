@@ -11,7 +11,6 @@ import dali.hamza.core.datasource.db.models.MovieDb
     entities = [
         MovieDb::class
     ]
-
 )
 @TypeConverters(Converter::class)
 abstract class AppDatabase : RoomDatabase() {

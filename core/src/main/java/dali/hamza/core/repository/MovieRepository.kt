@@ -49,6 +49,23 @@ class MovieRepository @Inject constructor(
 
     }
 
+    override suspend fun isMovieFav(movie: Movie): Boolean {
+        return movieDao.getOneMovie(movie.id!!) != null
+    }
+
+    override suspend fun removeMovieFromFav(movie: Movie): Boolean {
+        return try {
+            movieDao.delete(movie.toMovieDb())
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    override suspend fun clearAllFav(movie: Movie): Boolean {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getAllMoviesFav(): Flow<List<Movie>> {
         return movieDao.getAllMovies()
     }
