@@ -49,7 +49,7 @@ class MovieRepository @Inject constructor(
 
     }
 
-    override suspend fun getMovieFav(movie: Movie): Flow<List<Movie>> {
+    override suspend fun getAllMoviesFav(): Flow<List<Movie>> {
         return movieDao.getAllMovies()
     }
 
