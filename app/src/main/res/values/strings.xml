@@ -18,4 +18,8 @@
     <string name="createLabel">Create new Movie</string>
     <string name="creationMovieSuccess"> was created successfully</string>
     <string name="db_name">TVShowsDB</string>
+    <string name="see_fav_movie">See Favorite Movies</string>
+    <string name="movie_is_added_fav">is added to your favorite Movies</string>
+    <string name="hide">Hide</string>
+    <string name="movie_is_removed_fav">is removed from your favorite Movies</string>
 </resources>

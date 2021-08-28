@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
@@ -35,6 +33,7 @@ import dali.hamza.tvshowapp.common.isValidMovieForm
 import dali.hamza.tvshowapp.ui.MainActivity.Companion.createMovieComposition
 import dali.hamza.tvshowapp.ui.common.SpacerHeight
 import dali.hamza.tvshowapp.ui.component.LoadingComponent
+import dali.hamza.tvshowapp.ui.component.TopAppBarApp
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -49,16 +48,12 @@ fun CreateMovieCompose(
 
     Scaffold(
         topBar = {
-            TopAppBar() {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, "")
-                    }
-                    Text(stringResource(id = R.string.create_movie_page))
-                }
-            }
+            TopAppBarApp(
+                title = stringResource(id = R.string.create_movie_page),
+                onBack = {
+                    navController.popBackStack()
+                },
+            )
         }
     ) {
         Column {

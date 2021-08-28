@@ -1,58 +1,53 @@
 package dali.hamza.tvshowapp.ui.pages.movies
 
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.res.painterResource
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dali.hamza.domain.models.Movie
-import dali.hamza.tvshowapp.ui.MainActivity.Companion.moviesComposition
 import dali.hamza.tvshowapp.R
-import dali.hamza.tvshowapp.ui.component.EmptyMovies
-import dali.hamza.tvshowapp.ui.component.ItemMovieCompose
+import dali.hamza.tvshowapp.ui.MainActivity.Companion.moviesComposition
+import dali.hamza.tvshowapp.ui.component.ListTvShow
 import dali.hamza.tvshowapp.ui.component.LoadingComponent
+import dali.hamza.tvshowapp.ui.component.TopAppBarApp
+import kotlinx.coroutines.launch
 
 @Composable
 fun MoviesCompose() {
     val vm = moviesComposition.current.getVM()
     val navController = moviesComposition.current.getController()
+    val scaffoldState = rememberScaffoldState()
+
     DisposableEffect(key1 = vm.toString()) {
         vm.getMovies()
         onDispose {}
     }
     val data = vm.getUiState().collectAsState()
-    Scaffold (
+    Scaffold(
         topBar = {
-            TopAppBar (
-                elevation = 0.dp
-                    ){
-               Row(
-                   verticalAlignment = Alignment.CenterVertically
-               ) {
-                   IconButton(onClick = {
-                       navController.popBackStack()
-                   }) {
-                       Icon(Icons.Default.ArrowBack, contentDescription = "")
-                   }
-                   Text(stringResource(id = R.string.movies_page))
-               }
-            }
-        }
-            ){
+            TopAppBarApp(
+                title = stringResource(id = R.string.movies_page),
+                onBack = {
+                    navController.popBackStack()
+                }
+            )
+
+        },
+        scaffoldState = scaffoldState
+    ) {
         when (data.value.isLoading) {
             true -> LoadingComponent()
             false -> {
                 when (data.value.error != null) {
                     true -> Text(stringResource(id = R.string.errorMovie))
-                    false -> ListTvShow(data.value.data!!)
+                    false -> ListTvShow(data.value.data!!, actionItemMovie = { movie ->
+                        TrailingFavMovie(movie, scaffoldState)
+                    })
                 }
             }
         }
@@ -60,18 +55,61 @@ fun MoviesCompose() {
 }
 
 @Composable
-fun ListTvShow(movies: List<Movie>) {
-    when (movies.isEmpty()) {
-        true -> EmptyMovies(
-            painter = painterResource(id = R.drawable.ic_baseline_live_tv_24),
-            text = stringResource(id = R.string.emptyMovies)
-        )
-        else -> {
-            LazyColumn() {
-                items(movies) { movie ->
-                    ItemMovieCompose(movie)
-                }
+fun TrailingFavMovie(movie: Movie, scaffoldState: ScaffoldState) {
+    val isAddedMovieSuccess = stringResource(id = R.string.movie_is_added_fav)
+    val isRemovedMovieSuccess = stringResource(id = R.string.movie_is_removed_fav)
+    val labelHideSnack = stringResource(id = R.string.hide)
+    val coroutineScope = rememberCoroutineScope()
+
+    val vm = moviesComposition.current.getVM()
+    val mutableIsFav = remember {
+        mutableStateOf(false)
+    }
+    LaunchedEffect(key1 = movie) {
+        vm.checkMovieIsFav(movie = movie, onData = { fav ->
+            mutableIsFav.value = fav
+        })
+    }
+    IconButton(onClick = {
+        scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
+
+        when (mutableIsFav.value) {
+            true -> {
+                vm.removeMovieFromFav(movie = movie, onData = { isRemoved ->
+                    mutableIsFav.value = !isRemoved
+                    coroutineScope.launch {
+                        scaffoldState.snackbarHostState.showSnackbar(
+                            message = "${movie.title} $isRemovedMovieSuccess",
+                            actionLabel = labelHideSnack,
+                            duration = SnackbarDuration.Short
+                        )
+                    }
+                })            }
+            false -> {
+
+                vm.addMovieToFav(movie = movie, onData = { isAdded ->
+                    mutableIsFav.value = isAdded
+                    coroutineScope.launch {
+                        scaffoldState.snackbarHostState.showSnackbar(
+                            message = "${movie.title} $isAddedMovieSuccess",
+                            actionLabel = labelHideSnack,
+                            duration = SnackbarDuration.Short
+                        )
+                    }
+                })
             }
         }
+
+    }, Modifier.size(48.dp)) {
+        Icon(
+            Icons.Default.Star,
+            contentDescription = "",
+            modifier = Modifier,
+            tint = when (mutableIsFav.value) {
+                true -> Color.Yellow
+                false -> Color.Gray
+            }
+        )
     }
 }
+

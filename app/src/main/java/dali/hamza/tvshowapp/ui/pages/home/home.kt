@@ -1,9 +1,13 @@
 package dali.hamza.tvshowapp.ui.pages.home
 
+import android.widget.GridView
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -22,7 +26,9 @@ import dali.hamza.tvshowapp.ui.common.onPressed
 fun Home(
     goToCreateMovie: onPressed,
     goToMovies: onPressed,
+    goToFavMovies: onPressed,
 ) {
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -35,8 +41,9 @@ fun Home(
         Column() {
             Box(
                 Modifier
-                    .height(250.dp)
+                    .height(256.dp)
                     .fillMaxWidth()
+                    .padding(bottom = 12.dp)
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.background),
@@ -46,23 +53,35 @@ fun Home(
                         .fillMaxWidth()
                 )
             }
-            Row(
-                Modifier
-                    .padding(top = 5.dp)
-                    .fillMaxSize(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
+
+            @OptIn(ExperimentalFoundationApi::class)
+            LazyVerticalGrid(
+                cells = GridCells.Adaptive(minSize = 172.dp,),
+                contentPadding = PaddingValues(top = 5.dp),
+                modifier = Modifier.padding(horizontal = 12.dp)
             ) {
-                ButtonHome(
-                    action = goToCreateMovie,
-                    icon = R.drawable.ic_baseline_add_to_queue_24,
-                    label = stringResource(id = R.string.add_movie)
-                )
-                ButtonHome(
-                    action = goToMovies,
-                    icon = R.drawable.ic_baseline_live_tv_24,
-                    label = stringResource(id = R.string.see_movie)
-                )
+              item {
+                  ButtonHome(
+                      action = goToCreateMovie,
+                      icon = R.drawable.ic_baseline_add_to_queue_24,
+                      label = stringResource(id = R.string.add_movie)
+                  )
+              }
+                item {
+                    ButtonHome(
+                        action = goToMovies,
+                        icon = R.drawable.ic_baseline_live_tv_24,
+                        label = stringResource(id = R.string.see_movie)
+                    )
+                }
+                item {
+                    ButtonHome(
+                        action = goToFavMovies,
+                        icon = R.drawable.ic_baseline_star_24,
+                        label = stringResource(id = R.string.see_fav_movie)
+                    )
+
+                }
             }
         }
     }

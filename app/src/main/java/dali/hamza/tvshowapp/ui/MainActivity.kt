@@ -19,6 +19,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import dali.hamza.tvshowapp.ui.common.DatePickerFragment
 import dali.hamza.tvshowapp.ui.pages.create_movie.CreateMovieCompose
 import dali.hamza.tvshowapp.ui.pages.create_movie.CreateMovieViewModel
+import dali.hamza.tvshowapp.ui.pages.fav_movies.FavMovieViewModel
+import dali.hamza.tvshowapp.ui.pages.fav_movies.FavoriteMoviesCompose
 import dali.hamza.tvshowapp.ui.pages.movies.MoviesCompose
 
 @AndroidEntryPoint
@@ -26,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     companion object {
         val moviesComposition = compositionLocalOf<AppComposition<MoviesViewModel>> { error("No viewModel found!") }
         val createMovieComposition = compositionLocalOf<AppComposition<CreateMovieViewModel>> { error("No viewModel found!") }
+        val favMoviesComposition = compositionLocalOf<AppComposition<FavMovieViewModel>> { error("No viewModel found!") }
 
     }
 
@@ -50,6 +53,9 @@ class MainActivity : AppCompatActivity() {
                         },
                         goToMovies = {
                             navController.navigate(routes.movies)
+                        },
+                        goToFavMovies = {
+                            navController.navigate(routes.favMovies)
                         }
                     )
                 }
@@ -81,7 +87,15 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 composable(routes.favMovies){
-
+                    val moviesViewModel = hiltViewModel<FavMovieViewModel>()
+                    CompositionLocalProvider(
+                        favMoviesComposition provides AppComposition(
+                            moviesViewModel,
+                            navController
+                        )
+                    ){
+                        FavoriteMoviesCompose()
+                    }
                 }
             }
         }
