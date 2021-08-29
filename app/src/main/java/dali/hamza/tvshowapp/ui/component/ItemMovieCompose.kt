@@ -4,21 +4,15 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import dali.hamza.domain.models.Movie
 import dali.hamza.tvshowapp.R
 import dali.hamza.tvshowapp.common.isNotEmptyAndNotBlank
-import dali.hamza.tvshowapp.ui.theme.Gray400
 
 @Composable
 fun ItemMovieCompose(
@@ -55,65 +49,16 @@ fun ItemMovieCompose(
                     fontWeight = FontWeight.Normal,
                     modifier = Modifier
                 )
-                Text(
-                    buildAnnotatedString {
-                        withStyle(
-                            style = SpanStyle(
-                                color = when (isSystemInDarkTheme()) {
-                                    true -> Color.White
-                                    false -> Color.Black
-                                },
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                        ) {
-                            append(dateReleaseLabelRes)
-                        }
-                        withStyle(
-                            style = SpanStyle(
-                                color = when (isSystemInDarkTheme()) {
-                                    true -> Gray400
-                                    false -> Color.Gray
-                                },
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Normal
-                            )
-                        ) {
-                            when (movie.dateRelease.isNotEmptyAndNotBlank()) {
-                                true -> append("\t${movie.dateRelease}")
-                                false -> append(undefinedLabelRes)
-                            }
-
-                        }
+                SubTitleItemMovie(
+                    prefixSubTile = dateReleaseLabelRes,
+                    subTitle = when (movie.dateRelease.isNotEmptyAndNotBlank()) {
+                        true -> "\t${movie.dateRelease}"
+                        false -> undefinedLabelRes
                     }
                 )
-                Text(
-                    buildAnnotatedString {
-                        withStyle(
-                            style = SpanStyle(
-                                color = when (isSystemInDarkTheme()) {
-                                    true -> Color.White
-                                    false -> Color.Black
-                                },
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                        ) {
-                            append(seasonLabelRes)
-                        }
-                        withStyle(
-                            style = SpanStyle(
-                                color = when (isSystemInDarkTheme()) {
-                                    true -> Gray400
-                                    false -> Color.Gray
-                                },
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Normal
-                            )
-                        ) {
-                            append("\t${movie.season}")
-                        }
-                    }
+                SubTitleItemMovie(
+                    prefixSubTile = seasonLabelRes,
+                    subTitle = "\t${movie.season}"
                 )
             }
             if (trailing != null) {
