@@ -72,6 +72,12 @@ fun FavoriteMoviesCompose() {
     }
 }
 
+/**
+ * this composable action that responsible to remove the movie from local database
+ * logic behind removing movie that we show snackBar and we only remove the movie from list
+ * and when snackBar was dismissed , we remove the movie from local database ,
+ * if the user hit cancel button,we reinsert the removed movie into the list
+ */
 @Composable
 fun TrailingRemoveFavorite(movie: Movie, scaffoldState: ScaffoldState, scope: CoroutineScope) {
     val isRemovedMovieSuccess = stringResource(id = R.string.movie_is_removed_fav)
@@ -88,6 +94,10 @@ fun TrailingRemoveFavorite(movie: Movie, scaffoldState: ScaffoldState, scope: Co
                 scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
                  delay(200)
             }
+            /**
+             * get the index for the movie that we will used to backup the movie
+             * if the use hit cancel action
+             */
             val index = viewModel.getIndexOf(movie = movie)
             viewModel.removeLocallyMovie(movie)
             val snackResult = scaffoldState.snackbarHostState.showSnackbar(
@@ -97,7 +107,6 @@ fun TrailingRemoveFavorite(movie: Movie, scaffoldState: ScaffoldState, scope: Co
             )
             when (snackResult) {
                 SnackbarResult.Dismissed -> {
-
                     viewModel.removeMovieFromFavorite(movie, onError = {
                         viewModel.backUpMovieToFavoriteLocally(
                             movie,
