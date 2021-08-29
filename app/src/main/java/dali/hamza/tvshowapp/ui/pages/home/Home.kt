@@ -1,6 +1,5 @@
 package dali.hamza.tvshowapp.ui.pages.home
 
-import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -9,11 +8,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.OutlinedButton
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import dali.hamza.tvshowapp.R
 import dali.hamza.tvshowapp.ui.common.onPressed
 import dali.hamza.tvshowapp.ui.component.TopAppBarApp
-import kotlinx.coroutines.delay
 
 @Composable
 fun Home(
@@ -46,7 +44,7 @@ fun Home(
         Column() {
             Box(
                 Modifier
-                    .height(256.dp)
+                    .fillMaxHeight(fraction = 0.3f)
                     .fillMaxWidth()
                     .padding(bottom = 12.dp)
             ) {
@@ -62,7 +60,7 @@ fun Home(
 
             @OptIn(ExperimentalFoundationApi::class)
             LazyVerticalGrid(
-                cells = GridCells.Adaptive(minSize = 172.dp),
+                cells = GridCells.Fixed(count = 2),
                 contentPadding = PaddingValues(top = 5.dp),
                 modifier = Modifier.padding(horizontal = 12.dp)
             ) {
@@ -70,21 +68,30 @@ fun Home(
                     ButtonHome(
                         action = goToCreateMovie,
                         icon = R.drawable.ic_baseline_add_to_queue_24,
-                        label = stringResource(id = R.string.add_movie)
+                        label = stringResource(id = R.string.add_movie),
+                        modifier = Modifier
+                            .height(164.dp)
+                            .padding(3.dp),
                     )
                 }
                 item {
                     ButtonHome(
                         action = goToMovies,
                         icon = R.drawable.ic_baseline_live_tv_24,
-                        label = stringResource(id = R.string.see_movie)
+                        label = stringResource(id = R.string.see_movie),
+                        modifier = Modifier
+                            .height(164.dp)
+                            .padding(3.dp)
                     )
                 }
                 item {
                     ButtonHome(
                         action = goToFavMovies,
                         icon = R.drawable.ic_baseline_star_24,
-                        label = stringResource(id = R.string.see_fav_movie)
+                        label = stringResource(id = R.string.see_fav_movie),
+                        modifier = Modifier
+                            .height(164.dp)
+                            .padding(3.dp)
                     )
 
                 }
@@ -93,7 +100,6 @@ fun Home(
 
     }
 }
-
 
 
 @Composable
@@ -116,7 +122,9 @@ fun ButtonHome(
             colors = ButtonDefaults.outlinedButtonColors(
                 backgroundColor = Color.Transparent,
             ),
-            modifier = Modifier.size(172.dp)
+            modifier = modifier.then(
+                Modifier.fillMaxHeight()
+            )
         ) {
             Column(
                 verticalArrangement = Arrangement.Center,
