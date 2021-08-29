@@ -73,10 +73,12 @@ fun FavoriteMoviesCompose() {
 }
 
 /**
+ *
  * this composable action that responsible to remove the movie from local database
  * logic behind removing movie that we show snackBar and we only remove the movie from list
  * and when snackBar was dismissed , we remove the movie from local database ,
  * if the user hit cancel button,we reinsert the removed movie into the list
+ *
  */
 @Composable
 fun TrailingRemoveFavorite(movie: Movie, scaffoldState: ScaffoldState, scope: CoroutineScope) {
