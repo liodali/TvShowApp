@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.Flow
 interface MovieDao : AppDao<MovieDb> {
 
     @Query("select * from Movie")
-    fun getAllMovies(): Flow<List<Movie>>
+    fun getAllMovies(): Flow<List<MovieDb>>
 
     @Query("select * from Movie where id=:id")
-    suspend  fun getOneMovie(id:String): Movie?
+    suspend  fun getOneMovie(id:String): MovieDb?
 }

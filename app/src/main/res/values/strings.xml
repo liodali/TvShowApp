@@ -22,4 +22,5 @@
     <string name="movie_is_added_fav">is added to your favorite Movies</string>
     <string name="hide">Hide</string>
     <string name="movie_is_removed_fav">is removed from your favorite Movies</string>
+    <string name="movie_is_removed_failed_fav">cannot be removed</string>
 </resources>

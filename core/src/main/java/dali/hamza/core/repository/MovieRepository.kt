@@ -17,6 +17,7 @@ import dali.hamza.domain.models.SuccessResponse
 import dali.hamza.domain.repository.IMovieRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class MovieRepository @Inject constructor(
@@ -58,6 +59,7 @@ class MovieRepository @Inject constructor(
             movieDao.delete(movie.toMovieDb())
             true
         } catch (e: Exception) {
+            Log.e("error", e.stackTraceToString())
             false
         }
     }
@@ -67,7 +69,11 @@ class MovieRepository @Inject constructor(
     }
 
     override suspend fun getAllMoviesFav(): Flow<List<Movie>> {
-        return movieDao.getAllMovies()
+        return movieDao.getAllMovies().map { list ->
+            list.map {
+                it.toMovie()
+            }
+        }
     }
 
     override suspend fun searchMovie(name: String?, dateRelease: String?): Flow<IResponse> {

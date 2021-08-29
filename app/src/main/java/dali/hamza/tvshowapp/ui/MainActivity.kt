@@ -87,10 +87,10 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 composable(routes.favMovies){
-                    val moviesViewModel = hiltViewModel<FavMovieViewModel>()
+                    val favMoviesViewModel = hiltViewModel<FavMovieViewModel>()
                     CompositionLocalProvider(
                         favMoviesComposition provides AppComposition(
-                            moviesViewModel,
+                            favMoviesViewModel,
                             navController
                         )
                     ){

@@ -23,9 +23,8 @@ fun MoviesCompose() {
     val navController = moviesComposition.current.getController()
     val scaffoldState = rememberScaffoldState()
 
-    DisposableEffect(key1 = vm.toString()) {
+    LaunchedEffect(key1 = vm.toString()) {
         vm.getMovies()
-        onDispose {}
     }
     val data = vm.getUiState().collectAsState()
     Scaffold(

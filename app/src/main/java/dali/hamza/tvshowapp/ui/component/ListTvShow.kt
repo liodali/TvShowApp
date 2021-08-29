@@ -22,7 +22,7 @@ fun ListTvShow(
     when (movies.isEmpty()) {
         true -> emptyView()
         else -> {
-            LazyColumn() {
+            LazyColumn {
                 items(movies) { movie ->
                     ItemMovieCompose(movie, trailing = if (actionItemMovie != null) {
                         { actionItemMovie(movie) }
